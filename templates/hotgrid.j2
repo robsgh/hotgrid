@@ -1,0 +1,25 @@
+{% extends "base.j2" %}
+
+{% block content %}
+    <section class="section">
+        <div class="container">
+            <div class="columns is-multiline is-mobile">
+                {% for t in tiles %}
+                    <div class="column is-one-fifth is-narrow">
+                        <div class="box" onclick="activate({{ loop.index - 1}})">
+                            <figure class="image is-square">
+                                <img src="/static/{{ t.icon_image }}" /> 
+                            </figure>
+                            <p class="subtitle">{{ t.name }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <script>
+        function activate(idx) {
+            $.post("/activate/" + idx);
+        }
+    </script>
+{% endblock %}
