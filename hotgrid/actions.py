@@ -4,12 +4,30 @@ import platform
 
 
 class HotGridAction:
+    subclasses = []
+    actions = []
+    config_items  = []
+
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        HotGridAction.subclasses.append(cls)
+        HotGridAction.actions.append(cls.action_name)
+        HotGridAction.config_items.append(cls.config_items)
+
+    ''' Activate the HotGridAction '''
     def activate(self):
+        pass
+
+    ''' Get the items necessary for web configuration '''
+    def get_config_items(self):
         pass
 
 
 class HotGridActionKeyboard(HotGridAction):
-    def __init__(self, command: str, write = False, toggle = False):
+    action_name = 'Keyboard'
+    config_items = [{'name': 'Enter macro action', 'field': 'command', 'type': 'text'}]
+
+    def __init__(self, command: str, write: bool = False, toggle: bool = False):
         self.command = command
         self.write = write
         self.toggle = toggle
@@ -35,6 +53,9 @@ class HotGridActionKeyboard(HotGridAction):
 
 
 class HotGridActionOpenProcess(HotGridAction):
+    action_name = 'Open A Process'
+    config_items = [{'name': 'Enter process name to start (one word)', 'field': 'processName', 'type': 'text'}]
+
     ''' HotGrid Action type to open up a process with a specified process name '''
     def __init__(self, processName: str):
         self.process = processName

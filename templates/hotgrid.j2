@@ -4,17 +4,76 @@
     <section class="section">
         <div class="container">
             <div class="columns is-centered is-multiline is-mobile">
-                {% for t in tiles %}
-                    <div class="column">
-                        <div class="box is-light" onclick="$.post('/activate/' + {{ loop.index - 1 }})">
+                {% for gridElem in hotgrid %}
+                    <div class="column is-2">
+                        <div class="box is-dark" {% if gridElem.enabled == True %}onclick="activateGridElement({{ loop.index - 1 }})"{% endif %}>
                             <figure class="image is-square">
-                                <img src="/static/{{ t.icon_image }}" /> 
+                                <img src="/static/{{ gridElem.icon_image }}" /> 
                             </figure>
-                            <p class="subtitle">{{ t.name }}</p>
                         </div>
                     </div>
                 {% endfor %}
             </div>
         </div>
+        <div id="config-modal" class="modal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Configure HotGrid</p>
+                </header>
+                <section class="modal-card-body">
+                    <div class="content">
+                        <div class="columns">
+                            <div class="column is-half">
+                                <div class="field">
+                                    <label class="label">Select Element</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select id="element-select">
+                                                {% for gridElem in hotgrid %}
+                                                <option value="{{ loop.index }}">{{ loop.index }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <label class="label">HotGrid Action</label>
+                                    <div class="control">
+                                        <div class="select">
+                                            <select id="action-select">
+                                                <option value="" selected>Select an Action</option>
+
+                                                {% for action in hotgrid_actions %}
+                                                <option value="action{{ loop.index }}">{{ action }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="column is-half">
+                            <div id="config-fields" hidden>
+                            {% for action in hotgrid_action_fields %}
+                                {% set actionloop = loop %}
+                                {% for field in action %}
+                                    <div id="action{{ actionloop.index }}" class="control">
+                                        <label class="label is-inline">{{ field['name'] }}</label>
+                                        <input class="input" type="{{ field['type'] }}" name="{{ field['field'] }}" />
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <footer class="modal-card-foot" style="justify-content: flex-end">
+                    <button id="config-modal-save" class="button is-success" hidden>Save</button>
+                    <button id="config-modal-close" class="button">Cancel</button>
+                </footer>
+            </div>
+        </div>
     </section>
+
+    <script src="/static/js/hotgrid.js"></script>
 {% endblock %}
