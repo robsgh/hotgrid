@@ -2,7 +2,6 @@ import subprocess
 import keyboard
 import platform
 
-
 class HotGridAction:
     subclasses = []
     actions = []
@@ -62,7 +61,5 @@ class HotGridActionOpenProcess(HotGridAction):
 
     ''' Open process. Returns false always, since action cannot be toggled. '''
     def activate(self) -> bool:
-        if platform.system() == 'Windows':
-            subprocess.Popen('start {}'.format(self.process), shell=True)
-        else:   
-            subprocess.Popen('{}'.format(self.process), shell=True)  # this should work on bash, not confirmed yet
+        # easier, should-be-cross-platform way of opening programs independent of the python app
+        subprocess.Popen([self.process], start_new_session=True)

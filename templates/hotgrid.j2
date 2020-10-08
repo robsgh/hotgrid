@@ -6,9 +6,9 @@
             <div class="columns is-centered is-multiline is-mobile">
                 {% for gridElem in hotgrid %}
                     <div class="column is-2">
-                        <div class="box is-dark" {% if gridElem.enabled == True %}onclick="activateGridElement({{ loop.index - 1 }})"{% endif %}>
+                        <div id="grid-{{ loop.index }}" class="box is-dark" {% if gridElem.enabled == True %}onclick="activateGridElement({{ loop.index }})"{% endif %}>
                             <figure class="image is-square">
-                                <img src="/static/{{ gridElem.icon_image }}" /> 
+                                <img src="{{ gridElem.icon_image }}" /> 
                             </figure>
                         </div>
                     </div>
@@ -48,6 +48,18 @@
                                                 <option value="action{{ loop.index }}">{{ action }}</option>
                                                 {% endfor %}
                                             </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="control">
+                                        <div class="file">
+                                            <label class="file-label">
+                                                <input id="element-icon" class="file-input" type="file" name="resume" />
+                                                <span class="file-cta">
+                                                    <span id="element-icon-label" class="file-label">Choose an icon...</span>
+                                                </span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>

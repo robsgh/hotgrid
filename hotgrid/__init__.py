@@ -6,9 +6,9 @@ class HotGridElement:
     def __init__(self, name: str, action: HotGridAction = HotGridAction(), icon_image: str = None, enabled: bool = True):
         self.name = name
         if not icon_image:
-            self.icon_image = 'icons/default.png'
+            self.icon_image = '/icons/default.png'
         else:
-            self.icon_image = 'icons/' + icon_image
+            self.icon_image = '/icons/' + icon_image
         self.action = action
         self.active = False
         self.enabled = enabled
@@ -47,7 +47,12 @@ class HotGrid:
     def activate(self, index: int) -> bool:
         if index < 0 or index > self.grid_size:
             return False
-        self._hotgrid[index].activate()        
+        return self._hotgrid[index].activate()        
+
+    def set_icon(self, index: int, icon_url: str) -> None:
+        if index < 0 or index > self.grid_size:
+            return
+        self._hotgrid[index].icon_image = '/icons/' + icon_url
 
     ''' Get the current state of a HotGridElement '''
     def is_active(self, index: int) -> bool:
